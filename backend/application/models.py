@@ -9,7 +9,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String, nullable = False)
     fs_uniquifier = db.Column(db.String, unique = True, nullable = False)
     active = db.Column(db.Boolean, nullable = False)
-    roles = db.relationship('Role', backref = 'user', secondary = 'users_roles')
+    roles = db.relationship('Role', backref = 'users', secondary = 'users_roles')
     student_profile = db.relationship('Student', backref='user')
     company_profile = db.relationship('Company', backref='user')
 
