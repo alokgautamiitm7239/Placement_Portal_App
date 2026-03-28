@@ -18,7 +18,7 @@ class Role(db.Model, RoleMixin):
     name = db.Column(db.String, unique = True, nullable = False)
     description = db.Column(db.String)
 
-# use for many-to-many relationship
+# for many-to-many relationship
 class UsersRoles(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -38,10 +38,9 @@ class Student(db.Model):
 # Company Model
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    company_name = db.Column(db.String, nullable=False)
-    hr_contact = db.Column(db.String)
-    website = db.Column(db.String)
-    approval_status = db.Column(db.String, default="pending")
+    name = db.Column(db.String, nullable=False)
+    contact = db.Column(db.String)
+    status = db.Column(db.String, default="pending")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     drives = db.relationship('PlacementDrive', backref='company')
 
@@ -50,11 +49,10 @@ class Company(db.Model):
 class PlacementDrive(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     job_title = db.Column(db.String, nullable=False)
-    job_description = db.Column(db.String)
-    eligibility_branch = db.Column(db.String)
-    eligibility_cgpa = db.Column(db.Float)
-    eligibility_year = db.Column(db.Integer)
-    application_deadline = db.Column(db.String)
+    branch = db.Column(db.String)
+    cgpa = db.Column(db.Float)
+    year = db.Column(db.Integer)
+    deadline = db.Column(db.String)
     status = db.Column(db.String, default="pending")
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
     applications = db.relationship('Application', backref='drive')

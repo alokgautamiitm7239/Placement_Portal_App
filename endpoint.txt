@@ -1,0 +1,7 @@
+/api/register
+/api/Login
+
+-------for admin------------
+/api/admin/dashboard
+/api/admin/company/<id>/approve
+/apin/admin/company/<id>/reject
