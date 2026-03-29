@@ -40,6 +40,7 @@ class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     contact = db.Column(db.String)
+    # location=db.Column(db.String)
     status = db.Column(db.String, default="pending")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     drives = db.relationship('PlacementDrive', backref='company')

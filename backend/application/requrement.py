@@ -3,11 +3,11 @@ def student_applications(applications):
     result = []
     for i in applications:
         result.append({
-            "id": i.id,
+            "student_id": i.student_id,
             "student_name": i.student.name,
-            "drive_title": i.drive.job_title,
-            "company_name": i.drive.company.name,
+            "job_title": i.drive.job_title,
             "date": i.application_date,
+            "status":i.status,
         })
     return result
 
@@ -29,6 +29,7 @@ def companies(company):
         result.append({
             "id": i.id,
             "company_name": i.name,
+            # "location":i.location,
             "contact": i.contact,
             "status":i.status,
         })
