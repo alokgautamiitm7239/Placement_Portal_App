@@ -21,24 +21,22 @@ def user_login():
     user = app.security.datastore.find_user(email = email)
 
     if user:
-        print (password)
-        print(type(password))
-        print(len(password))
         if check_password_hash(user.password,password):
             login_user(user)
+            roles=[role.name for role in current_user.roles]
             return jsonify({
                 "id": user.id,
                 "username": user.username,
                 "auth-token": user.get_auth_token(),
-                "roles": [role.name for role in current_user.roles]
+                "role": roles[0]
             })
         else:
             return jsonify({
-                "message": "Incorrect Password"
+                "message": "Incorrect Password!"
             }), 400
     else:
        return jsonify({
-            "message": "User Not Found!"
+            "message": "User Not Found ? please SignUp!"
         }), 404 
 
 
@@ -96,8 +94,10 @@ def student():
 def company():
     approved_company=Company.query.filter_by(status="approved").all()
     pending_company=Company.query.filter_by(status="pending").all()
-    return jsonify({ "approved_company":companies(approved_company),
+    rejected_company=Company.query.filter_by(status="rejected").all()
+    return jsonify({"approved_company":companies(approved_company),
                     "pending_company":companies(pending_company),
+                    "rejected_company":companies(rejected_company),
                     })
 
 
@@ -105,8 +105,13 @@ def company():
 @auth_required('token')
 @roles_required('admin')
 def drive():
-    drive=PlacementDrive.query.all()
-    return jsonify({"drive":drives(drive),})
+    approved_drive=PlacementDrive.query.filter_by(status="approved").all()
+    pending_drive=PlacementDrive.query.filter_by(status="pending").all()
+    rejected_drive=PlacementDrive.query.filter_by(status="rejected").all()
+    return jsonify({"approved_drive":drives(approved_drive),
+                    "pending_drive":drives(pending_drive),
+                    "rejected_drive":drives(rejected_drive),
+                    })
 
 
 @app.route('/api/admin/application')
@@ -123,7 +128,7 @@ def application():
 def update_status(id):
     data = request.get_json()
     company = Company.query.filter(Company.id == id).first()
-    company.status = data.get("approval_status")
+    company.status = data.get("status")
     db.session.commit()
     return {"message": "Updated"},200
 
@@ -150,6 +155,16 @@ def block_company(id):
     user.active=data.get("active")
     db.session.commit()
     return {"message": "Done"},200
+
+@app.route('/api/admin/drive/<int:id>', methods=['PUT'])
+@auth_required('token')
+@roles_required('admin')
+def drive_status(id):
+    data = request.get_json()
+    drive=PlacementDrive.query.filter(PlacementDrive.id== id).first()
+    drive.status = data.get("status")
+    db.session.commit()
+    return {"message": "Updated"},200
 
 # -------------------------------------------------COMPANY ENDPOINT----------------------------------------------------------
 

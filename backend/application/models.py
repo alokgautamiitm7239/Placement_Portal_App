@@ -40,7 +40,8 @@ class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     contact = db.Column(db.String)
-    # location=db.Column(db.String)
+    website=db.Column(db.String)
+    location=db.Column(db.String)
     status = db.Column(db.String, default="pending")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     drives = db.relationship('PlacementDrive', backref='company')
@@ -63,6 +64,7 @@ class PlacementDrive(db.Model):
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     application_date = db.Column(db.String)
+    resume = db.Column(db.String(255))
     status = db.Column(db.String, default="applied")
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
     drive_id = db.Column(db.Integer, db.ForeignKey('placement_drive.id'))

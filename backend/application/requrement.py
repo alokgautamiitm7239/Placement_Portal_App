@@ -4,6 +4,7 @@ def student_applications(applications):
     for i in applications:
         result.append({
             "student_id": i.student_id,
+            "resume":i.resume,
             "student_name": i.student.name,
             "job_title": i.drive.job_title,
             "date": i.application_date,
@@ -11,11 +12,13 @@ def student_applications(applications):
         })
     return result
 
+
 def students(student):
     result = []
     for i in student:
         result.append({
             "id": i.id,
+            "active":i.user.active,
             "name": i.name,
             "branch": i.branch,
             "year": i.year,
@@ -28,8 +31,10 @@ def companies(company):
     for i in company:
         result.append({
             "id": i.id,
+            "active":i.user.active,
+            "website":i.website,
             "company_name": i.name,
-            # "location":i.location,
+            "location":i.location,
             "contact": i.contact,
             "status":i.status,
         })
@@ -48,5 +53,6 @@ def drives(drive):
             "year":i.year,
             "deadline":i.deadline,
             "status":i.status,
+            "company_name":i.company.name,
         })
     return result

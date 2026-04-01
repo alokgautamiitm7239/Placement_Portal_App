@@ -10,6 +10,7 @@
 /api/admin/company/<int:id>
 /api/admin/student/<int:id>
 /api/admin/Bcompany/<int:id>
+/api/admin/drive/<int:id>
 
 --------for company---------
 /api/company/register
