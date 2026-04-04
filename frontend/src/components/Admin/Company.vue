@@ -116,9 +116,9 @@ export default{
                 </tbody>
             </table>
             <div v-else class="container fontstyle mt-4">
-                <p>No approved company ✅ </p>
+                <p>No company </p>
             </div>
-    </div>>
+    </div>
 
     <div class="container mt-4">
            <h5 class="fontstyle bg-warning">Pending Company</h5>
@@ -161,7 +161,7 @@ export default{
             </table >
 
             <div v-else class="container fontstyle mt-4">
-                <p>No pending company ⚠️</p>
+                <p>No company</p>
             </div>
 
     </div>
@@ -193,7 +193,7 @@ export default{
             </table >
 
             <div v-else class="container fontstyle mt-4">
-                <p> No rejected company ❌</p>
+                <p> No company</p>
             </div>
 
     </div>

@@ -11,7 +11,7 @@
 
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Home</a>
+          <a class="nav-link active" href="/">Home</a>
         </li>
       </ul>
 
@@ -19,7 +19,7 @@
         <button class="btn btn-outline-light rounded-pill px-4 me-2" @click="this.$router.push('/login')">
           Login
         </button>
-        <button class="btn btn-primary rounded-pill px-4 shadow-sm">
+        <button class="btn btn-primary rounded-pill px-4 shadow-sm" @click="this.$router.push('/register')">
           Register
         </button>
       </div>

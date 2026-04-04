@@ -3,12 +3,18 @@ def student_applications(applications):
     result = []
     for i in applications:
         result.append({
+            "id":i.id,
             "student_id": i.student_id,
             "resume":i.resume,
             "student_name": i.student.name,
             "job_title": i.drive.job_title,
+            "company_name":i.drive.company.name,
             "date": i.application_date,
             "status":i.status,
+            "branch": i.student.branch,
+            "year": i.student.year,
+            "cgpa":i.student.cgpa,
+            "skills":i.student.skills
         })
     return result
 
@@ -41,7 +47,6 @@ def companies(company):
     return result
 
 
-#return list of drive JSON
 def drives(drive):
     result = []
     for i in drive:
@@ -54,5 +59,6 @@ def drives(drive):
             "deadline":i.deadline,
             "status":i.status,
             "company_name":i.company.name,
+            "application_len":len(i.applications)
         })
     return result

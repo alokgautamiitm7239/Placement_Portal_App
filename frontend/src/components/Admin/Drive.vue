@@ -85,9 +85,9 @@ export default{
                 </tbody>
             </table>
             <div v-else class="container fontstyle mt-4">
-                <p>No approved company ✅ </p>
+                <p>No approved company </p>
             </div>
-    </div>>
+    </div>
 
     <div class="container mt-4">
            <h5 class="fontstyle bg-warning">Pending Drive</h5>
@@ -128,7 +128,7 @@ export default{
             </table >
 
             <div v-else class="container fontstyle mt-4">
-                <p>No pending company ⚠️</p>
+                <p>No pending company</p>
             </div>
 
     </div>
@@ -146,7 +146,7 @@ export default{
                     <th scope="col">Status</th>
                     </tr>
                 </thead>
-                <tbody v-for="company in userData.rejected_drive" key="drive.id">
+                <tbody v-for="drive in userData.rejected_drive" key="drive.id">
                     <tr>
                     <th scope="row" >{{ drive.id }}</th>
                     <td>{{ drive.company_name }}</td>
@@ -158,7 +158,7 @@ export default{
             </table >
 
             <div v-else class="container fontstyle mt-4">
-                <p> No rejected company ❌</p>
+                <p> No rejected company</p>
             </div>
 
     </div>

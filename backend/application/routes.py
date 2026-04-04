@@ -23,6 +23,8 @@ def user_login():
     if user:
         if check_password_hash(user.password,password):
             login_user(user)
+            if not user.active:
+                return {"message": "Account blocked by admin"}, 403
             roles=[role.name for role in current_user.roles]
             return jsonify({
                 "id": user.id,
@@ -119,7 +121,7 @@ def drive():
 @roles_required('admin')
 def application():
     application=Application.query.all()
-    return jsonify({"student_applications":student_applications(application)})
+    return jsonify({"applications":student_applications(application)})
 
 
 @app.route('/api/admin/company/<int:id>', methods=['PUT'])
@@ -173,18 +175,18 @@ def drive_status(id):
 @roles_required('company')
 def register_company():
     data = request.get_json()
-    if current_user.company_profile:
-        return {"message": "Profile already exist"}, 400
     cmp= Company(
         name=data.get("name"),
         contact=data.get("contact"),
-        # location=data.get("location"),
+        website=data.get("website"),
+        location=data.get("location"),
+        user_id=current_user.id
     )
     db.session.add(cmp)
     db.session.commit()
     return {"message": "Profile created"}, 201
 
-@app.route('/api/company/creat_drive', methods=['POST'])
+@app.route('/api/company/create_drive', methods=['POST'])
 @auth_required('token')
 @roles_required('company')
 def creat_drive():
@@ -195,6 +197,7 @@ def creat_drive():
         cgpa = data.get("cgpa"),
         year = data.get("year"),
         deadline=data.get("deadline"),
+        company_id=current_user.company_profile[0].id
             )
     db.session.add(drv)
     db.session.commit()
@@ -206,18 +209,27 @@ def creat_drive():
 @roles_required('company')
 def company_dashboard():
     company = Company.query.filter_by(user_id=current_user.id).first()
-    cmpny_id = company.id
-    drive=PlacementDrive.query.filter_by(company_id=cmpny_id).all()
-    company_drive=drives(drive)
-    return jsonify({"name":company.name,"company_drive":company_drive})
+    if company:
+      cmpny_id = company.id
+      company_status=company.status
+      drive=PlacementDrive.query.filter_by(company_id=cmpny_id).all()
+    #   application_length=len[for app in drive.applications]
+      company_drive=drives(drive)
+      return jsonify({"name":company.name,"company_drive":company_drive,"status":company_status  ,"message":"Done"}),200
+    else:
+        return jsonify({"message":"Register the company first"})
 
 @app.route('/api/company/drive/<int:id>')
 @auth_required('token')
 @roles_required('company')
 def company_drive(id):
-    applictn = Application.query.filter_by(drive_id=id).all()
-    applications=student_applications(applictn)
-    return jsonify({"applications":applications})
+    shortlisted_applictn = Application.query.filter_by(drive_id=id,status="shortlisted").all()
+    applied_applictn = Application.query.filter_by(drive_id=id,status="applied").all()
+    rejected_applictn = Application.query.filter_by(drive_id=id,status="rejected").all()
+    return jsonify({"shortlisted_applications":student_applications(shortlisted_applictn),
+                    "applied_applications":student_applications(applied_applictn),
+                    "rejected_applications":student_applications(rejected_applictn)
+                    })
 
 @app.route('/api/company/application/<int:id>', methods=['PUT'])
 @auth_required('token')

@@ -40,9 +40,8 @@ export default{
 </script>
 
 <template>
-  <div class="row g-4 mb-4 mt-4" v-if="token">
+  <div class="row g-4 mb-4 mt-4" id="container" v-if="token">
 
-    <!-- Card 1 -->
     <div class="col-md-3">
       <div class="card p-4 shadow-sm border-0 rounded-4">
         <h2>{{ this.userData.student }}</h2>
@@ -51,16 +50,14 @@ export default{
       </div>
     </div>
 
-    <!-- Card 2 -->
     <div class="col-md-3">
       <div class="card p-4 shadow-sm border-0 rounded-4">
         <h2>{{ this.userData.company }}</h2>
         <p class="text-muted">Registered Companies</p>
-        <RouterLink to="/admin/company" class="text-primary"> Manage Students →</RouterLink>
+        <RouterLink to="/admin/company" class="text-primary"> Manage Companies →</RouterLink>
       </div>
     </div>
 
-    <!-- Card 3 -->
     <div class="col-md-3">
       <div class="card p-4 shadow-sm border-0 rounded-4">
         <h2>{{ this.userData.drive }}</h2>
@@ -69,14 +66,16 @@ export default{
       </div>
     </div>
 
-    <!-- Card 4 -->
     <div class="col-md-3">
-      <div class="card p-4 shadow-sm border-0 rounded-4">
+      <div class="card p-4 shadow-sm border-0 rounded-4 ">
         <h2>{{ this.userData.application }}</h2>
         <p class="text-muted">Total Applications</p>
-        <RouterLink to="/admin/student" class="text-warning"> Manage Applications →</RouterLink>
+        <RouterLink to="/admin/application" class="text-warning"> Manage Applications →</RouterLink>
       </div>
     </div>
 
   </div>
 </template>
+
+<style>
+</style>
