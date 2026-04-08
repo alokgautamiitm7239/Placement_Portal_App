@@ -10,6 +10,9 @@ import Dashboard from "./components/Admin/Dashboard.vue";
 import Company_Dashboard from "./components/Company/Dashboard.vue";
 import Drive_register from "./components/Company/Drive_register.vue";
 import Drive_application from "./components/Company/Drive_application.vue";
+import Student_Dashboard from "./components/Student/Dashboard.vue";
+import StudentApplication from "./components/Student/Application.vue";
+import ApplicationHistory from "./components/Student/ApplicationHistory.vue";
 
 const routes=[
     {path:"/",component:HomePage},
@@ -32,6 +35,16 @@ const routes=[
       { path: "create_drive", component:Drive_register},
       { path: "application", component:Drive_application },
       // { path: "drive", component: Drive },
+      // { path: "application", component: Application },
+    ],
+  },
+
+
+    {path: "/student",
+    children: [
+      { path: "dashboard", component:Student_Dashboard},
+      { path: "application", component:StudentApplication},
+      { path: "history", component:ApplicationHistory},
       // { path: "application", component: Application },
     ],
   },

@@ -11,8 +11,8 @@
             <h3 class="mb-1"style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
                 Comprehensive and effective Placement Portal
             </h3>
-            <p4 style="color: grey;">This portal is designed to connect students with opportunities.
-                Manage your profile, apply for jobs, and stay updated with the latest placements</p4>
+            <p style="color: grey;">This portal is designed to connect students with opportunities.
+                Manage your profile, apply for jobs, and stay updated with the latest placements</p>
     </div>
 
     <div class="col-md-8 d-flex justify-content-center align-items-center ">

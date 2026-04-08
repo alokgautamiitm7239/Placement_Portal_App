@@ -1,13 +1,16 @@
 <script>
 import axios from 'axios'
+
 export default{
+  props:["loggedIn"],
+  emits:["login"],
     data(){
         return{
             formData:{
             email:"",
             password:"",
-            token:"",
             },
+            token:"",
             err:""
         }
     },
@@ -22,7 +25,8 @@ export default{
             .then(res=>{
               if(res.status==200){
                 this.token=res.data["auth-token"]
-                localStorage.setItem("token",res.data["auth-token"])
+                localStorage.setItem("token",this.token)
+                this.$emit("login")
                 if(res.data.role=="admin"){
                   this.$router.push("/admin/dashboard")
                 }else if(res.data.role=="student"){

@@ -193,9 +193,10 @@ def creat_drive():
     data = request.get_json()
     drv= PlacementDrive(
         job_title = data.get("job_title"),
+        qualification = data.get("qualification"),
         branch = data.get("branch"),
         cgpa = data.get("cgpa"),
-        year = data.get("year"),
+        experience_year = data.get("experience_year"),
         deadline=data.get("deadline"),
         company_id=current_user.company_profile[0].id
             )
@@ -242,28 +243,67 @@ def application_status(id):
     return {"message": "Updated"},200
 
 # ----------------------------------------------STUDENT ENDPOINTS---------------------------------------------------
+@app.route('/api/student/register', methods=['POST'])
+@auth_required('token')
+@roles_required('student')
+def register_student():
+    data = request.get_json()
+    cmp= Student(
+        name=data.get("name"),
+        course=data.get("course"),
+        branch=data.get("branch"),
+        cgpa=data.get("cgpa"),
+        experience_year=data.get("experience_year"),
+        skills=data.get("skills"),
+        user_id=current_user.id
+    )
+    db.session.add(cmp)
+    db.session.commit()
+    return {"message": "Profile created"}, 201
+
 
 @app.route('/api/student/dashboard')
 @auth_required('token')
 @roles_required('student')
 def student_dashboard():
-        approved_company=Company.query.filter_by(status="approved").all()
-
+        approved_drive=PlacementDrive.query.filter_by(status="approved").all()
         student=Student.query.filter_by(user_id=current_user.id).first()
-        student_id=student.id
-        applic = Application.query.filter_by(student_id=student_id).all()
-        result = []
-        for a in applic:
-         drive = PlacementDrive.query.get(a.drive_id)
-        result.append({
-            "title": drive.job_title,
-            "status": a.status
-        })
+        if student:
+            student_id=student.id
+            name=student.name
+            applic = Application.query.filter_by(student_id=student_id).all()
+            result = []
+            for a in applic:
+                drive = PlacementDrive.query.get(a.drive_id)
+                result.append({
+                "job_title":drive.job_title,"company_name":drive.company.name,"status":a.status,
+                 })
 
-        return jsonify({
-            "company":companies(approved_company), "name":student.name,
-            "drive_status":result,
-        })
+            return jsonify({"message":"Done", "approved_drive":drives(approved_drive),
+                             "name":name, "id":student_id, "applied_drive":result,
+                    })
+        else:
+            return jsonify({"message":"Register student first"
+            })
+        
+@app.route('/api/student/application/<int:drive_id>/<int:student_id>')
+@auth_required('token')
+@roles_required('student')
+def student_application(drive_id,student_id):
+    exist= Application.query.filter_by(student_id=student_id,drive_id=drive_id).first()
+    if exist:
+        return jsonify({"message":"Already applied"
+            })
+    cmp= Application(
+        application_date="12/07/2025",
+        student_id=student_id,
+        drive_id=drive_id,
+
+    )
+    db.session.add(cmp)
+    db.session.commit()
+    return {"message": "Applied successfully"}, 201
+
 
 @app.route('/api/student/update_profile', methods=['PUT'])
 @auth_required('token')
@@ -271,10 +311,12 @@ def student_dashboard():
 def update_profile():
     data = request.get_json()
     student=Student.query.filter_by(user_id=current_user.id).first()
-    student.name = data.get("name")
-    student.branch = data.get("branch")
-    student.cgpa = data.get("cgpa")
-    student.year = data.get("year")
+    student.name=data.get("name"),
+    student.course=data.get("contact"),
+    student.branch=data.get("branch"),
+    student.cgpa=data.get("cgpa"),
+    student.experience_year=data.get("experience_year"),
+    student.skills=data.get("skills"),
     db.session.commit()
     return {"message": "Updated"},200
 

@@ -42,6 +42,13 @@ export default{
 <template>
   <div class="row g-4 mb-4 mt-4" id="container" v-if="token">
 
+    <div class="d-flex align-items-center justify-content-between p-3 ">
+        <h4 class="mx-4">
+          Welcome : 
+          <span class="text-primary">{{ userData.username}}</span>
+        </h4>
+  </div>
+
     <div class="col-md-3">
       <div class="card p-4 shadow-sm border-0 rounded-4">
         <h2>{{ this.userData.student }}</h2>

@@ -77,7 +77,7 @@ export default{
 </script>
 
 <template>
-    <div class="container mt-4" >
+    <div class="container-fluid mt-4" >
             <h5 class="fontstyle bg-success">Approved Company</h5>
             <table class="table m-4 " v-if="userData.approved_company && userData.approved_company.length > 0">
                 <thead>
@@ -120,7 +120,7 @@ export default{
             </div>
     </div>
 
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
            <h5 class="fontstyle bg-warning">Pending Company</h5>
 
             <table class="table m-4 " v-if="userData.pending_company && userData.pending_company.length > 0">
@@ -166,7 +166,7 @@ export default{
 
     </div>
 
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
            <h5 class="fontstyle bg-danger">Rejected Company</h5>
 
             <table class="table m-4 " v-if="userData.rejected_company && userData.rejected_company.length > 0">

@@ -74,15 +74,15 @@ export default{
 </script>
 
 <template>
-   <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded shadow-sm">
-        <h3 class="mb-0">
-          Company Name: 
+   <div class="d-flex align-items-center justify-content-between p-4 bg-light rounded shadow-sm">
+        <h4 class="mx-4">
+          Welcome : 
           <span class="text-primary">{{ userData.name}}</span>
-        </h3>
-        <div >Status: {{ userData.status }}</div>
+        </h4>
+        <div class="fw-bold">Status: {{ userData.status }}</div>
 
         <RouterLink to="/company/create_drive" v-if="userData.status =='approved'">
-          <button class="btn btn-primary">
+          <button class="btn btn-primary btn-sm">
             + Create Drive
           </button>
         </RouterLink>

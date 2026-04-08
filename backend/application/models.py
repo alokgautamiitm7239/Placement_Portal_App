@@ -28,9 +28,10 @@ class UsersRoles(db.Model):
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+    course=db.Column(db.String,nullable=False)
     branch = db.Column(db.String,nullable=False)
     cgpa = db.Column(db.Float , nullable=False)
-    year = db.Column(db.Integer ,nullable=False)
+    experience_year = db.Column(db.Integer ,nullable=False)
     skills=db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     applications = db.relationship('Application', backref='student')
@@ -52,9 +53,10 @@ class Company(db.Model):
 class PlacementDrive(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     job_title = db.Column(db.String, nullable=False)
+    qualification=db.Column(db.String,nullable=False)
     branch = db.Column(db.String)
     cgpa = db.Column(db.Float)
-    year = db.Column(db.Integer)
+    experience_year = db.Column(db.Integer)
     deadline = db.Column(db.String)
     status = db.Column(db.String, default="pending")
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'))

@@ -12,7 +12,7 @@ def student_applications(applications):
             "date": i.application_date,
             "status":i.status,
             "branch": i.student.branch,
-            "year": i.student.year,
+            "experience_year": i.student.experience_year,
             "cgpa":i.student.cgpa,
             "skills":i.student.skills
         })
@@ -27,8 +27,10 @@ def students(student):
             "active":i.user.active,
             "name": i.name,
             "branch": i.branch,
-            "year": i.year,
+            "experince_year": i.experience_year,
             "cgpa":i.cgpa,
+            "course":i.course,
+            "skills":i.skills
         })
     return result
 
@@ -55,7 +57,8 @@ def drives(drive):
             "job_title": i.job_title,
             "branch": i.branch,
             "cgpa":i.cgpa,
-            "year":i.year,
+            "qualification":i.qualification,
+            "experience_year":i.experience_year,
             "deadline":i.deadline,
             "status":i.status,
             "company_name":i.company.name,

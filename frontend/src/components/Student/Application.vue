@@ -5,12 +5,8 @@ export default{
         return{
             token:"",
             formData: {
-                name: "",
-                skills: "",
-                course: "",
-                branch: "",
-                cgpa: "",
-                experience_year: ""
+                date: "",
+                resume: "",
                 },
             err:""
         }
@@ -25,7 +21,9 @@ export default{
         },
 
         StudentRegister(){
-            const response=axios.post("http://127.0.0.1:5000/api/student/register", this.formData,{
+            const d_id=this.$route.query.drive_id
+            const s_id=this.$route.query.student_id
+            const response=axios.post(`http://127.0.0.1:5000/api/student/application/${d_id}/${s_id}`, this.formData,{
                 headers:{
                     "Content-Type":"application/json",
                     "Authentication-Token":this.token
@@ -50,7 +48,7 @@ export default{
                 
                 <div class="card p-4 shadow" style="width: 500px;">
                     
-                    <h3 class="text-center mb-2">Student Registration</h3>
+                    <h3 class="text-center mb-2">Upload resume </h3>
 
                     <div class="mb-1 ">
                     <label for="exampleInputEmail1" class="form-label" >Name </label>
@@ -60,26 +58,6 @@ export default{
                     <div class="mb-1">
                     <label for="exampleInputPassword1" class="form-label" >Skills</label>
                     <input type="text" class="form-control" id="exampleInputPassword1" v-model="formData.skills" required>
-                    </div>
-
-                    <div class="mb-1">
-                    <label for="exampleInputPassword1" class="form-label" >Qualification</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" v-model="formData.course" required>
-                    </div>
-
-                    <div class="mb-1">
-                    <label for="exampleInputPassword1" class="form-label">Branch</label>
-                    <input type="text" class="form-control"  v-model="formData.branch" required>
-                    </div>
-
-                    <div class="mb-1">
-                    <label for="exampleInputPassword1" class="form-label">CGPA</label>
-                    <input type="text" class="form-control"  v-model="formData.cgpa" required>
-                    </div>
-
-                    <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Experience (in year)</label>
-                    <input type="text" class="form-control"  v-model="formData.experience_year" required>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">Register</button>
