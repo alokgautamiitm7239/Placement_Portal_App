@@ -82,7 +82,7 @@ export default{
     async startDownload() {
                 
                 try {
-                    const res = await axios.get("http://127.0.0.1:5000/export_csv/1")
+                    const res = await axios.get(`http://127.0.0.1:5000/export_csv/${this.userData.id}`)
                     const taskId = res.data.id
 
                     setTimeout(() => {
