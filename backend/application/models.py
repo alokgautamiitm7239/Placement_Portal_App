@@ -1,5 +1,6 @@
 from .database import db
 from flask_security import UserMixin, RoleMixin
+from datetime import date
 
 class User(db.Model, UserMixin):
     # required for flask security
@@ -57,7 +58,8 @@ class PlacementDrive(db.Model):
     branch = db.Column(db.String)
     cgpa = db.Column(db.Float)
     experience_year = db.Column(db.Integer)
-    deadline = db.Column(db.String)
+    salary=db.Column(db.String, nullable=False)
+    deadline = db.Column(db.Date, nullable=False)
     status = db.Column(db.String, default="pending")
     company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
     applications = db.relationship('Application', backref='drive')
@@ -66,8 +68,7 @@ class PlacementDrive(db.Model):
 # Application Model
 class Application(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    application_date = db.Column(db.String)
-    resume = db.Column(db.String(255))
+    application_date = db.Column(db.Date, nullable=False)
     status = db.Column(db.String, default="applied")
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'))
     drive_id = db.Column(db.Integer, db.ForeignKey('placement_drive.id'))

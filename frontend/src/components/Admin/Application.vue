@@ -35,20 +35,6 @@ export default{
             })
         },
 
-
-    // blockUser:function(id,status){
-    //    const response= axios.put(`http://127.0.0.1:5000/api/admin/student/${id}`,{ active: status },{
-    //         headers:{
-    //                 "Content-Type":"application/json",
-    //                 "Authentication-Token":this.token
-    //                 }
-    //         });
-    //         response
-    //         .then(res=>  this.loadUser())
-    //         .catch (err=> {
-    //            console.log(err.response);
-    //         } )
-    //   }
     }
 }
 
@@ -62,15 +48,15 @@ export default{
 </script>
 
 <template>
-    <!-- <div class="container mt-4" >
+    <div class="container mt-4" >
      <table class="table m-4 " >
         <thead>
             <tr>
             <th scope="col">Student ID</th>
             <th scope="col">Name</th>
-            <th scope="col">Branch</th>
-            <th scope="col">CGPA</th>
-            <th scope="col">Year</th>
+            <th scope="col">Company</th>
+            <th scope="col">Job Title</th>
+            <th scope="col">Date</th>
             <th scope="col">Action</th>
            
             </tr>
@@ -96,14 +82,16 @@ export default{
 
     <div v-if="this.showPopup" v-for="application in userData.applications" key="application.id" class="popup mt-4">
       <div class="popup-content">
-        <h2>This is a Popup</h2>
-        <p>Hello, this is your popup content.</p>
-        <p>My name is {{ application.student_name }}  i'm doing qaualification is this</p>
-        <button @click="showPopup = false">Close</button>
+        <h2>Application Details</h2>
+        <p>Name: {{ application.student_name }}</p>
+        <p>Branch: {{ application.branch }}</p>
+        <p>CGPA: {{ application.cgpa }}</p>
+        <p>Experience: {{ application.experience_year }} years</p>
+        <p>Skills: {{ application.skills }}</p>
+        <button class="btn btn-danger" @click="showPopup = false">Close</button>
       </div>
-    </div> -->
+    </div>
 
-    
     
 </template>
 

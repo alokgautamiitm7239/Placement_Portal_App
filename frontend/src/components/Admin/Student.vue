@@ -4,13 +4,30 @@ export default{
    data(){
     return {
       token:"",
-      userData:""
-    }
+      userData:{
+        students:[]
+      },
+      search:"",
+       }
    },
+
    mounted(){
     this.loadToken()
     this.loadUser()
    },
+
+  computed: {
+      SearchStudents() {
+          return this.userData.students.filter(student => {
+  
+      const search =
+        student.name.toLowerCase().includes(this.search.toLowerCase()) ||
+        student.id.toString().toLowerCase().includes(this.search.toLowerCase())
+        student.branch.toString().toLowerCase().includes(this.search.toLowerCase());
+      return search})
+      }
+  },
+
    methods:{
     loadToken: function(){
       const token=localStorage.getItem("token")
@@ -49,53 +66,56 @@ export default{
             } )
       }
     }
-}
-
-   
-
-
-
-
-
+  }
 
 </script>
 
 <template>
-    <div class="container mt-4" >
-     <table class="table m-4 " >
-        <thead>
-            <tr>
-            <th scope="col">Student ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Branch</th>
-            <th scope="col">CGPA</th>
-            <th scope="col">Year</th>
-            <th scope="col">Action</th>
-           
-            </tr>
-        </thead>
-        <tbody v-for="student in userData.students" key="student.id">
-            <tr>
-            <th scope="row" >{{ student.id }}</th>
-            <td>{{ student.name }}</td>
-            <td>{{ student.branch }}</td>
-            <td>{{ student.cgpa }}</td>
-            <td>{{ student.year }}</td>
-            <td>
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-6" v-if="!student.active">
-                    <button type="button" class="btn btn-success w-100"  @click="blockUser(student.id,status=true)">Unblock</button>
+<div class="container-fluid mt-4" >
+         <div>      
+              <h5 class="fontstyle bg-success mt-1">Students</h5>
+                        <div class="d-flex justify-content-between align-items-center m-3">
+
+                            <input type="text" v-model="search" class="form-control w-50" 
+                                placeholder="Search by student name or ID..."/>
+
+                          </div>
+          </div>
+
+        <table class="table m-4 " >
+              <thead>
+                <tr>
+                <th scope="col">Student ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Branch</th>
+                <th scope="col">CGPA</th>
+                <th scope="col">Year</th>
+                <th scope="col">Action</th>
+              
+                </tr>
+            </thead>
+            <tbody v-for="student in SearchStudents" :key="student.id">
+                <tr>
+                <th scope="row" >{{ student.id }}</th>
+                <td>{{ student.name }}</td>
+                <td>{{ student.branch }}</td>
+                <td>{{ student.cgpa }}</td>
+                <td>{{ student.experience_year }}</td>
+                <td>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-6" v-if="!student.active">
+                        <button type="button" class="btn btn-success w-100"  @click="blockUser(student.id,status=true)">Unblock</button>
+                      </div>
+                      <div class="col-md-6" v-else>
+                        <button type="button" class="btn btn-danger w-100" @click="blockUser(student.id , status=false)" >Block</button>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-md-6" v-else>
-                    <button type="button" class="btn btn-danger w-100" @click="blockUser(student.id , status=false)" >Block</button>
-                  </div>
-                </div>
-              </div>
-            </td>
-            </tr>
-        </tbody>
+                </td>
+                </tr>
+            </tbody>
         </table>
-    </div>
+</div>
     
 </template>

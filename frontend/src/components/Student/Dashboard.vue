@@ -8,8 +8,12 @@ export default{
    data(){
     return {
       token:"",
-      userData:"",
-      err:""
+      userData:{
+        "approved_drive":[]
+      },
+      search:"",
+      applied:[],
+      err:"",
     }
    },
 
@@ -17,6 +21,18 @@ export default{
     this.loadToken()
     this.loadUser()
    },
+   computed: {
+    SearchDrives() {
+         return this.userData.approved_drive.filter(drive => {
+
+    const search =
+      drive.company_name.toLowerCase().includes(this.search.toLowerCase()) ||
+      drive.job_title.toLowerCase().includes(this.search.toLowerCase())  ||
+      drive.branch.toLowerCase().includes(this.search.toLowerCase())||
+      drive.location.toLowerCase().includes(this.search.toLowerCase())
+    return search})
+    },
+},
 
    methods:{
     loadToken: function(){
@@ -43,7 +59,12 @@ export default{
             })
         },
 
-    StudentApply(id){
+    StudentApply: function(id){
+
+        if (!this.applied.includes(id)) {
+            this.applied.push(id)
+            }
+
         const response=axios(`http://127.0.0.1:5000/api/student/application/${id}/${this.userData.id}`,{
             headers:{
                 "Content-Type":"application/json",
@@ -56,12 +77,33 @@ export default{
         .catch(err => {
             this.err=err.response
         })
-    }
+     },
 
+    async startDownload() {
+                
+                try {
+                    const res = await axios.get("http://127.0.0.1:5000/export_csv/1")
+                    const taskId = res.data.id
 
+                    setTimeout(() => {
+                    const link = document.createElement("a")
+                    link.href = `http://127.0.0.1:5000/api/csv_result/${taskId}`
+                    document.body.appendChild(link)
+                    link.click()
+                    link.remove()
 
+                    alert("CSV downloaded successfully!")
+
+                    }, 2000) 
+
+                } catch (error) {
+                    console.error("Error:", error)
+                }
+            }
+               
     }
 }
+
 
    
 
@@ -76,52 +118,71 @@ export default{
 
     <div v-if="userData.message !== 'Register student first'">
             <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded shadow-sm">
-                    <h3 class="mb-0">
+                    <h5 class="mb-0">
                     Welcome : 
                     <span class="text-primary">{{ userData.name}}</span>
-                    </h3>
-            </div>
+                    </h5>
+            
 
             <RouterLink to="/student/history">
-                    <button class=" btn btn-primary ">History</button>
-            </RouterLink>
+                    <p>Placement History → </p>
+            </RouterLink> </div>
 
             <div class="container mt-4" >
                     <div>
                         <h5 class="fontstyle bg-success">Placement Drives</h5>
-                        <table class="table m-4 " v-if="userData.approved_drive && userData.approved_drive.length > 0">
+                        <div class="d-flex justify-content-between align-items-center m-3">
+
+                            <input type="text" v-model="search" class="form-control w-50" 
+                                placeholder="Search by company or job title or branch or location ..."/>
+
+
+                            <div> <button class="btn btn-dark btn-sm" @click="startDownload">Download CSV</button></div>
+
+                            </div>
+
+                    <div  >
+                        <table class="table m-4 " v-if="SearchDrives && SearchDrives.length > 0">
                             <thead>
                                 <tr>
                                 <th scope="col">Company</th>
                                 <th scope="col">Job Title</th>
                                 <th scope="col">Eligibility Criteria</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Salary</th>
                                 <th scope="col">Deadline</th>
                             
                                 </tr>
                             </thead>
-                            <tbody v-for="drive in userData.approved_drive" key="drive.id">
+                            <tbody v-for="drive in SearchDrives" key="drive.id">
                                 <tr>
                                 <td>{{ drive.company_name }}</td>
                                 <td>{{ drive.job_title }}</td>
                                 <td>
-                                   <tr>Qualification - {{ drive.qualification }}</tr>
-                                   <tr>Branch - {{ drive.branch }}</tr>
-                                   <tr>Minimun CGPA - {{ drive.cgpa }}</tr>
-                                   <tr>Experience - {{ drive.experience_year }} Year</tr>  
+                                     <div>Qualification - {{ drive.qualification }}</div>
+                                    <div>Branch - {{ drive.branch }}</div>
+                                    <div>Minimum CGPA - {{ drive.cgpa }}</div>
+                                    <div>Experience - {{ drive.experience_year }} Year</div>  
                                 </td>
+                                <td>{{ drive.location }}</td>
+                                <td>{{ drive.salary }}</td>
                                 <td>{{ drive.deadline }}</td>
                                 <td>
                                 <div class="container">
                                     <div class="row">
-                                    <div class="col-md-7">
-                                        <button type="button" class="btn btn-secondary" @click="StudentApply(drive.id)" >Apply</button>
-                                    </div>
+                                        <div v-if="!applied.includes(drive.id)" class="col-md-7">
+                                            <button type="button" class="btn btn-success" @click="StudentApply(drive.id)" >Apply</button>
+                                        </div>
+                                        <div v-else class="col-md-7">
+                                            <button type="button" class="btn btn-secondary" disabled>Applied</button>
+                                        </div>
                                     </div>
                                 </div>
                                 </td>
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
                     </div>
             </div>
 

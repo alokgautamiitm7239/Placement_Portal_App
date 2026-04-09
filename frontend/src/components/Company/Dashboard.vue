@@ -147,22 +147,22 @@ export default{
                     <h3 class="text-center mb-3">Company Registration</h3>
 
                     <div class="mb-2 ">
-                    <label for="exampleInputEmail1" class="form-label" >Name </label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" v-model="formData.name" required>
+                    <label  class="form-label" >Name </label>
+                    <input type="text" class="form-control"  v-model="formData.name" required>
                     </div>
 
                     <div class="mb-2">
-                    <label for="exampleInputPassword1" class="form-label" >Contact </label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" v-model="formData.contact" required>
+                    <label  class="form-label" >Contact </label>
+                    <input type="text" class="form-control"  v-model="formData.contact" required>
                     </div>
 
                     <div class="mb-2">
-                    <label for="exampleInputPassword1" class="form-label">Website</label>
+                    <label  class="form-label">Website</label>
                     <input type="text" class="form-control"  v-model="formData.website" required>
                     </div>
 
                     <div class="mb-2">
-                    <label for="exampleInputPassword1" class="form-label">Location</label>
+                    <label  class="form-label">Location</label>
                     <input type="text" class="form-control"  v-model="formData.location" required>
                     </div>
 

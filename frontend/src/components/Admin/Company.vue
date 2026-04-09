@@ -4,13 +4,29 @@ export default{
    data(){
     return {
       token:"",
-      userData:""
+      userData:{approved_company:[]},
+      search:"",
     }
    },
    mounted(){
     this.loadToken()
     this.loadUser()
    },
+
+     computed: {
+      SearchCompany() {
+          return this.userData.approved_company.filter(company => {
+  
+      const search =
+        company.company_name.toLowerCase().includes(this.search.toLowerCase()) ||
+        company.id.toString().toLowerCase().includes(this.search.toLowerCase())||
+        company.location.toString().toLowerCase().includes(this.search.toLowerCase());
+      return search})
+      }
+  },
+
+
+
    methods:{
     loadToken: function(){
       const token=localStorage.getItem("token")
@@ -77,9 +93,15 @@ export default{
 </script>
 
 <template>
-    <div class="container-fluid mt-4" >
+    <div class="container-fluid mt-1" >
             <h5 class="fontstyle bg-success">Approved Company</h5>
-            <table class="table m-4 " v-if="userData.approved_company && userData.approved_company.length > 0">
+            <div class="d-flex justify-content-between align-items-center m-3">
+
+                            <input type="text" v-model="search" class="form-control w-50" 
+                                placeholder="Search by company name or ID or location ..."/>
+
+                          </div>
+            <table class="table m-4 " v-if="SearchCompany && SearchCompany.length > 0">
                 <thead>
                     <tr>
                     <th scope="col">Company ID</th>
@@ -92,7 +114,7 @@ export default{
                 
                     </tr>
                 </thead>
-                <tbody v-for="company in userData.approved_company" key="company.id">
+                <tbody v-for="company in SearchCompany" key="company.id">
                     <tr>
                     <th scope="row" >{{ company.id }}</th>
                     <td>{{ company.company_name }}</td>

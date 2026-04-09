@@ -5,7 +5,6 @@ def student_applications(applications):
         result.append({
             "id":i.id,
             "student_id": i.student_id,
-            "resume":i.resume,
             "student_name": i.student.name,
             "job_title": i.drive.job_title,
             "company_name":i.drive.company.name,
@@ -14,7 +13,8 @@ def student_applications(applications):
             "branch": i.student.branch,
             "experience_year": i.student.experience_year,
             "cgpa":i.student.cgpa,
-            "skills":i.student.skills
+            "skills":i.student.skills,
+            "course":i.student.course,
         })
     return result
 
@@ -27,7 +27,7 @@ def students(student):
             "active":i.user.active,
             "name": i.name,
             "branch": i.branch,
-            "experince_year": i.experience_year,
+            "experience_year": i.experience_year,
             "cgpa":i.cgpa,
             "course":i.course,
             "skills":i.skills
@@ -61,7 +61,9 @@ def drives(drive):
             "experience_year":i.experience_year,
             "deadline":i.deadline,
             "status":i.status,
+            "salary":i.salary,
             "company_name":i.company.name,
+            "location":i.company.location,
             "application_len":len(i.applications)
         })
     return result

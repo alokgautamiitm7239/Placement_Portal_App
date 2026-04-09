@@ -4,7 +4,7 @@ from.requrement import *
 from flask import current_app as app, jsonify, request
 from flask_security import auth_required, roles_required,current_user, login_user
 from werkzeug.security import check_password_hash, generate_password_hash
-
+from .task import csv_report, monthly_report, deadline_update
 
 
 @app.route('/api/login', methods=['POST'])
@@ -191,13 +191,18 @@ def register_company():
 @roles_required('company')
 def creat_drive():
     data = request.get_json()
+    date_str=data.get("deadline")
+    deadline = datetime.strptime(date_str, "%Y-%m-%d").date()   
+
+
     drv= PlacementDrive(
         job_title = data.get("job_title"),
         qualification = data.get("qualification"),
         branch = data.get("branch"),
         cgpa = data.get("cgpa"),
         experience_year = data.get("experience_year"),
-        deadline=data.get("deadline"),
+        salary = data.get("salary"),
+        deadline = deadline,   
         company_id=current_user.company_profile[0].id
             )
     db.session.add(drv)
@@ -243,6 +248,7 @@ def application_status(id):
     return {"message": "Updated"},200
 
 # ----------------------------------------------STUDENT ENDPOINTS---------------------------------------------------
+
 @app.route('/api/student/register', methods=['POST'])
 @auth_required('token')
 @roles_required('student')
@@ -295,7 +301,7 @@ def student_application(drive_id,student_id):
         return jsonify({"message":"Already applied"
             })
     cmp= Application(
-        application_date="12/07/2025",
+        application_date=date.today(),
         student_id=student_id,
         drive_id=drive_id,
 
@@ -321,9 +327,35 @@ def update_profile():
     return {"message": "Updated"},200
 
 
+# ------------------------------------------------Backend Jobs-------------------------------------------------------
+from celery.result import AsyncResult
+from flask import send_from_directory
 
+@app.route('/export_csv/<int:id>')
+def export_csv(id):
+    result = csv_report.delay(id)
+    return {
+        "id": result.id,
+    }
 
+@app.route('/api/csv_result/<id>') 
+def csv_result(id):
+    res = AsyncResult(id)
+    if not res.ready():
+        return jsonify({"message": "File not ready"}), 202
+    if res.failed():
+        return jsonify({"message": "Task failed"}), 500
+    return send_from_directory('static', res.result)
 
-    
-
-
+@app.route('/api/send_mail')
+def send_mail():
+    res = monthly_report.delay()
+    return {
+        "message": res.result
+    }
+@app.route('/api/update_deadline')
+def update_deadline():
+    deadline_update.delay()
+    return {
+        "message": "Notifications sent successfully"
+    }

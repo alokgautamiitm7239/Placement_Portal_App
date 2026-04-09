@@ -5,6 +5,8 @@ from application.models import User,Role
 from flask_security import Security, SQLAlchemyUserDatastore
 from werkzeug.security import generate_password_hash
 from flask_cors import CORS
+from application.celery_init import celery_init_app
+from celery.schedules import crontab
 
 
 def create_app():
@@ -18,6 +20,20 @@ def create_app():
     return app
 
 app = create_app()
+celery=celery_init_app(app)
+celery.autodiscover_tasks()
+
+@celery.on_after_finalize.connect 
+def setup_periodic_tasks(sender, **kwargs):
+    sender.add_periodic_task(
+        crontab(minute = '*/2'),
+        monthly_report.s(),
+    )
+
+    sender.add_periodic_task(
+            crontab(minute = '*/1'),
+            deadline_update.s(),)
+
 
 
 with app.app_context():
@@ -28,7 +44,7 @@ with app.app_context():
     db.session.commit()
     if not app.security.datastore.find_user(email = "user0@admin.com"):
         app.security.datastore.create_user(email = "user0@admin.com",
-                                           username = "admin01",
+                                           username = "Admin",
                                            password = generate_password_hash("1234"),
                                            roles = ['admin'])
         

@@ -53,32 +53,32 @@ export default{
                     <h3 class="text-center mb-2">Student Registration</h3>
 
                     <div class="mb-1 ">
-                    <label for="exampleInputEmail1" class="form-label" >Name </label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" v-model="formData.name" required>
+                    <label  class="form-label" >Name </label>
+                    <input type="text" class="form-control"  v-model="formData.name" required>
                     </div>
 
                     <div class="mb-1">
-                    <label for="exampleInputPassword1" class="form-label" >Skills</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" v-model="formData.skills" required>
+                    <label  class="form-label" >Skills</label>
+                    <input type="text" class="form-control"  v-model="formData.skills" required>
                     </div>
 
                     <div class="mb-1">
-                    <label for="exampleInputPassword1" class="form-label" >Qualification</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" v-model="formData.course" required>
+                    <label  class="form-label" >Qualification</label>
+                    <input type="text" class="form-control"  v-model="formData.course" required>
                     </div>
 
                     <div class="mb-1">
-                    <label for="exampleInputPassword1" class="form-label">Branch</label>
+                    <label  class="form-label">Branch</label>
                     <input type="text" class="form-control"  v-model="formData.branch" required>
                     </div>
 
                     <div class="mb-1">
-                    <label for="exampleInputPassword1" class="form-label">CGPA</label>
+                    <label  class="form-label">CGPA</label>
                     <input type="text" class="form-control"  v-model="formData.cgpa" required>
                     </div>
 
                     <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Experience (in year)</label>
+                    <label  class="form-label">Experience (in year)</label>
                     <input type="text" class="form-control"  v-model="formData.experience_year" required>
                     </div>
 
