@@ -1,6 +1,6 @@
 from .database import db
 from flask_security import UserMixin, RoleMixin
-from datetime import date
+from datetime import date ,datetime
 
 class User(db.Model, UserMixin):
     # required for flask security
