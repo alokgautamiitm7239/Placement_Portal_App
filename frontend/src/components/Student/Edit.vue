@@ -24,8 +24,8 @@ export default{
         this.token=token
         },
 
-        StudentRegister(){
-            const response=axios.post("http://127.0.0.1:5000/api/student/register", this.formData,{
+        editProfile(){
+            const response=axios.put("http://127.0.0.1:5000/api/student/update_profile", this.formData,{
                 headers:{
                     "Content-Type":"application/json",
                     "Authentication-Token":this.token
@@ -33,7 +33,8 @@ export default{
             })
             response
             .then(res=>{
-                 this.$emit("registered")}
+                 this.$router.push("/student/dashboard")
+                alert("Profile Updated Successfully")}
             )
             .catch(err => {
               this.err=err.response
@@ -45,12 +46,12 @@ export default{
 </script>
 
 <template>
-            <form @submit.prevent="StudentRegister()">
+            <form @submit.prevent="editProfile()">
                <div class=" mt-2 container d-flex justify-content-center align-items-center vh-100">
                 
                 <div class="card p-4 shadow" style="width: 500px;">
                     
-                    <h3 class="text-center mb-2">Student Registration</h3>
+                    <h3 class="text-center mb-2">Update Profile</h3>
 
                     <div class="mb-1 ">
                     <label  class="form-label" >Name </label>
@@ -74,7 +75,7 @@ export default{
 
                     <div class="mb-1">
                     <label  class="form-label">CGPA</label>
-                    <input type="number" class="form-control"  v-model="formData.cgpa" required>
+                    <input type="number"  class="form-control"  v-model="formData.cgpa" required>
                     </div>
 
                     <div class="mb-3">
@@ -82,7 +83,7 @@ export default{
                     <input type="number" class="form-control"  v-model="formData.experience_year" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                    <button type="submit" class="btn btn-primary w-100">Update</button>
                     <p class="err" v-if="err">{{ this.err }}</p>
 
                 </div>

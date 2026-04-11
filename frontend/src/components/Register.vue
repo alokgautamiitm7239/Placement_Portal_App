@@ -23,6 +23,7 @@ export default{
             response
             .then(res=>{
                   this.$router.push("/login")
+                  alert("Registration Successfully please login!!!")
            })
             .catch(err => {
               this.err=err.response.data.message

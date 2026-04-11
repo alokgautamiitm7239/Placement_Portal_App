@@ -115,18 +115,27 @@ export default{
 </script>
 
 <template>
-
     <div v-if="userData.message !== 'Register student first'">
-            <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded shadow-sm">
+            <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded shadow-sm flex-wrap gap-3">
                     <h5 class="mb-0">
-                    Welcome : 
-                    <span class="text-primary">{{ userData.name}}</span>
+                        Welcome :
+                        <span class="text-primary">{{ userData.name }}</span>
                     </h5>
-            
 
-            <RouterLink to="/student/history">
-                    <p>Placement History → </p>
-            </RouterLink> </div>
+                    <div class="d-flex gap-3">
+
+                        <RouterLink to="/student/editprofile" class="btn btn-outline-primary btn-sm" >
+                            Edit Profile
+                        </RouterLink>
+
+
+                        <RouterLink to="/student/history" class="btn btn-outline-success btn-sm">
+                            Placement History →
+                        </RouterLink>
+
+                    </div>
+
+                </div>
 
             <div class="container mt-4" >
                     <div>
@@ -189,9 +198,9 @@ export default{
     </div>
 
     
-                        
+                    
     <div v-else>
-        <Register @registered="loadUser()" />
+        <Register @registered="loadUser()"/>
     </div>
     
 </template>

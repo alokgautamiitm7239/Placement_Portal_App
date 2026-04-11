@@ -101,7 +101,7 @@ export default{
                 </thead>
                 <tbody v-for="application in userData.applied_applications" key="application.id">
                     <tr>
-                    <th scope="row" >{{ application.student_name }}</th>
+                    <td>{{ application.student_name }}</td>
                     <td>{{ application.branch }}</td>
                     <td>{{ application.cgpa }}</td>
                     <td>{{ application.skills }}</td>

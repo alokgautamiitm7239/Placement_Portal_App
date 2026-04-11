@@ -28,6 +28,7 @@ export default{
             response
             .then(res=>{
                   this.$router.push("/company/dashboard")
+                  alert("Drive created successfully wait for approval")
            })
             .catch(err => {
               this.err=err.response.data.message
@@ -65,12 +66,12 @@ export default{
 
             <div class="mb-1">
             <label  class="form-label">Minimum CGPA</label>
-            <input type="text" class="form-control"  v-model="formData.cgpa" required>
+            <input type="number" class="form-control"  v-model="formData.cgpa" required>
             </div>
 
             <div class="mb-1">
             <label  class="form-label">Experience(in Year)</label>
-            <input type="text" class="form-control"  v-model="formData.experience_year" required>
+            <input type="number" class="form-control"  v-model="formData.experience_year" required>
             </div>
 
             <div class="mb-1">

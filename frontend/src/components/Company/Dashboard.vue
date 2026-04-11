@@ -59,6 +59,23 @@ export default{
             .catch(err => {
               this.err=err.response.data.message
             })
+        },
+        closeDrive(id){
+
+            const response=axios.put(`http://127.0.0.1:5000/api/company/close_drive/${id}`, { status: "closed" },{
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authentication-Token":this.token
+                    },                    
+            })
+            response
+              .then(res => {
+                this.loadUser()
+                alert("Drive closed successfully")
+            })
+            .catch(err => {
+              this.err=err.response.data.message
+            })
         }
 
     }
@@ -113,12 +130,15 @@ export default{
                     <td>
                     <div class="container">
                         <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-5">
                            <RouterLink :to="{path: '/company/application',query:{id:drive.id}}">
                             <button type="button" class="btn btn-success w-100"  >View</button>
                           </RouterLink>
                         </div>
+                        <div class="col-md-5">
+                            <button type="button" class="btn btn-danger w-100" @click="closeDrive(drive.id)">Close</button>
                         </div>
+                      </div>
                     </div>
                     </td>
                     </tr>

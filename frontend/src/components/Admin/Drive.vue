@@ -114,7 +114,7 @@ export default{
                     <td>
                     <div class="container">
                         <div class="row">
-                        <div class="col-md-4" >
+                        <div class="col-md-5" >
                             <button type="button" class="btn btn-success w-100"  @click="updateStatus(drive.id,status='approved')">Approve</button>
                         </div>
                         <div class="col-md-4">

@@ -209,6 +209,17 @@ def creat_drive():
     db.session.commit()
     return {"message": "Drive created"}, 201
 
+@app.route('/api/company/close_drive/<int:id>', methods=['PUT'])
+@auth_required('token')
+@roles_required('company')
+def close_drive(id):
+    data = request.get_json()
+    drive = PlacementDrive.query.filter(PlacementDrive.id == id).first()
+    drive.status = data.get("status")
+    db.session.commit()
+    return {"message": "Drive closed"}, 200
+
+
 
 @app.route('/api/company/dashboard')
 @auth_required('token')
@@ -218,7 +229,7 @@ def company_dashboard():
     if company:
       cmpny_id = company.id
       company_status=company.status
-      drive=PlacementDrive.query.filter_by(company_id=cmpny_id).all()
+      drive=PlacementDrive.query.filter_by(company_id=cmpny_id,status="approved").all()
     #   application_length=len[for app in drive.applications]
       company_drive=drives(drive)
       return jsonify({"name":company.name,"company_drive":company_drive,"status":company_status  ,"message":"Done"}),200
@@ -317,12 +328,12 @@ def student_application(drive_id,student_id):
 def update_profile():
     data = request.get_json()
     student=Student.query.filter_by(user_id=current_user.id).first()
-    student.name=data.get("name"),
-    student.course=data.get("contact"),
-    student.branch=data.get("branch"),
-    student.cgpa=data.get("cgpa"),
-    student.experience_year=data.get("experience_year"),
-    student.skills=data.get("skills"),
+    student.name=data.get("name")
+    student.course=data.get("course")
+    student.branch=data.get("branch")
+    student.cgpa=data.get("cgpa")
+    student.experience_year=data.get("experience_year")
+    student.skills=data.get("skills")
     db.session.commit()
     return {"message": "Updated"},200
 
